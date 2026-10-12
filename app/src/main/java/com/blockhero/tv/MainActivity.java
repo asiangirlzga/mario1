@@ -171,6 +171,7 @@ public class MainActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        if (!hasFocus) { game.kLeft = game.kRight = game.kDown = game.kJump = false; }
         if (hasFocus) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -184,10 +185,6 @@ public class MainActivity extends Activity {
     @Override
     public boolean onKeyDown(int code, KeyEvent e) {
         switch (code) {
-            case KeyEvent.KEYCODE_DPAD_UP:
-            case KeyEvent.KEYCODE_W:
-                game.kUp = true;
-                return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
             case KeyEvent.KEYCODE_S:
                 game.kDown = true;
@@ -200,6 +197,8 @@ public class MainActivity extends Activity {
             case KeyEvent.KEYCODE_D:
                 game.kRight = true;
                 return true;
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_W:
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_NUMPAD_ENTER:
@@ -231,10 +230,6 @@ public class MainActivity extends Activity {
     @Override
     public boolean onKeyUp(int code, KeyEvent e) {
         switch (code) {
-            case KeyEvent.KEYCODE_DPAD_UP:
-            case KeyEvent.KEYCODE_W:
-                game.kUp = false;
-                return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
             case KeyEvent.KEYCODE_S:
                 game.kDown = false;
@@ -247,6 +242,8 @@ public class MainActivity extends Activity {
             case KeyEvent.KEYCODE_D:
                 game.kRight = false;
                 return true;
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_W:
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
             case KeyEvent.KEYCODE_NUMPAD_ENTER:

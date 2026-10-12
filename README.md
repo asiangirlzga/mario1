@@ -4,16 +4,18 @@ A tiny 3D platformer for Android TV (also runs on phones/tablets). Controlled wi
 gamepad or keyboard. No libraries, no image/sound files: everything is generated in code,
 so the APK is only a few dozen KB and the game needs very little RAM.
 
-## Controls
+## Controls (run-only mode: one key at a time is enough)
+The hero **runs forward by itself**.
 | TV remote / keyboard | Action |
 |---|---|
-| D-pad (W A S D) | Move (up = forward, left/right = strafe, down = back) |
-| OK / Enter / Space / A | Jump (hold = higher) and menu confirm |
+| LEFT / RIGHT | Steer |
+| OK or UP | Jump |
+| DOWN (hold) | Stop (wait for moving platforms) |
 | Back | Pause, press Back again to quit |
 | Menu / Play-Pause | Pause / resume |
 
-Gamepads: left stick or D-pad to move, A/B/X/Y to jump, Start to pause.
-Touch: tap = jump / OK (for testing on a phone).
+Gamepads: stick or D-pad left/right to steer, A/B/X/Y to jump, Start to pause.
+Touch: tap = jump / OK.
 
 ## Rules
 Stomp mushrooms (+100), collect coins (+10, 100 coins = extra life), touch a green post to set a

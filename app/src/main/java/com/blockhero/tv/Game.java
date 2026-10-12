@@ -23,7 +23,7 @@ final class Game implements GLSurfaceView.Renderer {
     static final int TITLE = 0, PLAY = 1, PAUSE = 2, CLEAR = 3, OVER = 4, WIN = 5;
 
     private static final float HX = 0.3f, HH = 1.25f;
-    private static final float GRAV = -30f, JUMP = 12f, RUN = 6.5f;
+    private static final float GRAV = -30f, JUMP = 12f, RUN = 5.8f;
     private static final float ENEMY_H = 0.95f;
 
     // ------------------------------------------------------- input (UI thread)
@@ -346,7 +346,8 @@ final class Game implements GLSurfaceView.Renderer {
 
         // ---- input -> velocity (screen right is world -X because we look down +Z)
         float ix = (kLeft ? 1f : 0f) - (kRight ? 1f : 0f) - axX;
-        float iz = (kUp ? 1f : 0f) - (kDown ? 1f : 0f) - axY;
+        // auto-run: always forward; hold DOWN to brake/stop (e.g. to wait for a moving platform)
+        float iz = (kDown || axY > 0.5f) ? 0f : 1f;
         float len = (float) Math.sqrt(ix * ix + iz * iz);
         if (len > 1f) { ix /= len; iz /= len; }
         float acc = onGround ? 70f : 40f;
@@ -370,7 +371,6 @@ final class Game implements GLSurfaceView.Renderer {
             sfx.play(Sfx.JUMP);
         }
         vy += GRAV * h;
-        if (!kJump && vy > 3f) vy -= 60f * h;
         if (vy < -26f) vy = -26f;
 
         // ---- move + collide, one axis at a time
@@ -412,7 +412,7 @@ final class Game implements GLSurfaceView.Renderer {
                     && py < e.y + ENEMY_H && py + HH > e.y) {
                 if (vy < 0 && py > e.y + 0.45f) {
                     e.squash = 0.001f;
-                    vy = kJump ? 13.5f : 9.5f;
+                    vy = 11f;
                     score += 100;
                     sq = 0.2f;
                     sfx.play(Sfx.STOMP);
@@ -529,8 +529,8 @@ final class Game implements GLSurfaceView.Renderer {
         }
         switch (state) {
             case TITLE:
-                mid = "BLOCK HERO 3D\n\nPress OK to start\n\nD-pad: move     OK: jump (hold for higher)\n"
-                        + "Stomp the mushrooms, grab coins, reach the flag!";
+                mid = "BLOCK HERO 3D\n\nPress OK to start\n\nLEFT / RIGHT: steer     OK or UP: jump     DOWN: stop\n"
+                        + "The hero runs by itself. Stomp the mushrooms, grab coins, reach the flag!";
                 break;
             case PAUSE:
                 mid = "PAUSED\n\nOK: resume     BACK: quit";
